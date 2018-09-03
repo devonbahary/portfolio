@@ -1,5 +1,8 @@
 @import 'config';
+@import 'about';
+@import 'contact';
 @import 'menu';
+@import 'work';
 
 * {
   box-sizing: border-box;
@@ -25,9 +28,12 @@ h1, h2, h3 {
   }
 
   &.sm-heading {
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', 'Mono', 'Courier New';
+    font-weight: 100;
     margin-bottom: 2rem;
     padding: 0.2rem 1rem;
-    background: rgba(lighten($primary-color, 2), 0.5);
+    background: rgba(darken($primary-color, 2), 0.9);
+    border-radius: $box-corner;
   }
 }
 
@@ -48,7 +54,6 @@ header {
 
 main {
   padding: 4rem;
-  // height: 100%;
   min-height: calc(100vh - 60px);
 
   .icons {
@@ -73,121 +78,21 @@ main {
   }
 }
 
-.about-info {
-  display: grid;
-  grid-template-areas: 
-  'bioimage bio bio'
-  'job1 job2 job3';
-  grid-template-columns: repeat(3, 1fr);
-
-  .bio-image {
-    grid-area: bioimage;
-    margin: auto;
-    border-radius: 50%;
-    border: 3px solid $secondary-color;
-  }
-  
-  .bio {
-    grid-area: bio;
-    font-size: 1.5rem;
-  }
-  
-  .job-1 {
-    grid-area: job1;
-  }
-  
-  .job-2 {
-    grid-area: job2;
-  }
-  
-  .job-3 {
-    grid-area: job3;
-  }
-  
-  .job {
-    background: lighten($primary-color, 5);
-    margin: 0.5rem;
-    padding: 0.5rem;
-    border-bottom: 5px solid $secondary-color;
-  }
-}
-
-// Work/Projects 
-.projects {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 0.7rem;
-
-  img {
-    width: 100%;
-    border: 3px solid #fff;
-
-    &:hover {
-      opacity: 0.5;
-      border-color: $secondary-color;
-      @include easeOut;
-    }
-  }
-}
-
-// Contact Page 
-.boxes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-top: 1rem;
-
-  div {
-    font-size: 2rem;
-    border: 3px solid #fff;
-    padding: 1.5rem 2.5rem;
-    margin-bottom: 3rem;
-    @include easeOut;
-
-    &:hover {
-      padding: 0.5rem 1.5rem;
-      background: $secondary-color;
-      color: set-text-color($secondary-color);
-
-      span {
-        color: set-text-color($secondary-color);
-      }
-    }
-  }
-}
-
-// Button Styles
-.btn {
-  display: block;
-  padding: 0.5rem 1rem;
-  border: 0;
-  margin-bottom: 0.3rem;
-
-  &:hover {
-    background: $secondary-color;
-    color: set-text-color($secondary-color);
-  }
-}
-
-.btn-dark {
-  @extend .btn;
-  background: darken($primary-color, 50);
-  color: #fff;
-}
-
-.btn-light {
-  @extend .btn;
-  background: lighten($primary-color, 50);
-  color: #333;
-}
-
 #main-footer {
   text-align: center;
   padding: 1rem;
   background: darken($primary-color, 10);
   color: set-text-color($primary-color);
   height: 60px;
+
+  a {
+    padding: 0.4rem;
+
+    &:hover {
+      color: $secondary-color;
+      @include easeOut();
+    }
+  }
 }
 
-@import 'mobile';
+@import 'responsive';

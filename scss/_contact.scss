@@ -1,0 +1,36 @@
+// Contact Page 
+
+main#contact {
+  h1.lg-heading {
+    margin-bottom: 2rem;
+  }
+
+  i {
+    opacity: 0.8;
+    margin-right: 1rem;
+    color: #fff;
+    @include easeOut;
+  }
+
+  i.highlight {
+    animation: highlight 2s ease-out;
+  }
+
+  p:hover {
+    i {
+      color: $secondary-color;
+    }
+  }
+}
+
+@keyframes highlight {
+  0% {
+    color: #fff;
+  }
+  50% {
+    color: $secondary-color;
+  }
+  100% {
+    color: #fff;
+  }
+}

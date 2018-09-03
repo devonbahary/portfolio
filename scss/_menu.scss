@@ -12,12 +12,13 @@
     height: 3px;
     margin-bottom: 5px;
     background: set-text-color($primary-color);
+    box-shadow: 1px 1px black;
     @include easeOut();
   }
 
   // Rotate Into X With Menu Lines
   &.close {
-    transform: rotate(180deg);
+    transform: rotate(-180deg);
 
     .btn-line {
       // Line 1 - Rotate
@@ -31,6 +32,7 @@
       // Line 3 - Rotate
       &:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -6px);
+        box-shadow: none;
       }
     }
   }
@@ -41,7 +43,6 @@
   position: fixed;
   top: 0;
   width: 100%;
-  opacity: 0.9;
   visibility: hidden;
 
   &.show {
@@ -62,7 +63,7 @@
   &-nav {
     margin: 0;
     padding: 0;
-    background: darken($primary-color, 5);
+    background: rgba(darken($primary-color, 10), 0.9);
     list-style: none;
     transform: translate(0, -100%);
     @include easeOut();
@@ -74,7 +75,8 @@
   }
 
   &-branding {
-    background: $primary-color;
+    background: rgba(darken($primary-color, 5), 0.9);
+    border-right: 1px solid darken($primary-color, 5);
     transform: translate(0, 100%);
     @include easeOut();
 
@@ -86,10 +88,11 @@
     .portrait {
       width: 250px;
       height: 250px;
-      background: url('../img/portrait.jpg');
+      background: url('../img/portrait-small.jpg');
       background-size: cover;
       border-radius: 50%;
-      border: 3px solid $secondary-color;
+      border: 3px solid darken($secondary-color, 10);
+      box-shadow: 0 0 25px darken($primary-color, 10);
     }
   }
 
@@ -116,6 +119,7 @@
     font-weight: 300;
     color: set-text-color($primary-color);
     text-decoration: none;
+    letter-spacing: 1px;
     @include easeOut();
 
     &:hover {
