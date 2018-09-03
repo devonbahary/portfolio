@@ -1,8 +1,74 @@
-@import 'config';
-@import 'about';
-@import 'contact';
-@import 'menu';
-@import 'work';
+// @import 'config';
+// @import 'about';
+// @import 'contact';
+// @import 'menu';
+// @import 'work';
+
+
+$primary-color: #444;
+$secondary-color: #339AF0;
+$show-home-image: true;
+$home-image: url(../img/background.jpg);
+$background-opacity: 0.9;
+$box-corner: 6px; // border-radius
+
+@mixin easeOut {
+  transition: all 0.25s ease-out;
+}
+
+@mixin background {
+  @if $show-home-image {
+    &#bg-img {
+      background: $home-image;
+      background-attachment: fixed;
+      background-size: cover;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba($primary-color, $background-opacity);
+        z-index: -1;
+      }
+    }
+  }
+}
+
+@function set-text-color($color) {
+  @if (lightness($color) > 40) {
+    @return #000;
+  } @else {
+    @return #fff;
+  }
+}
+
+// Media Query Mixins
+@mixin mediaSm {
+  @media screen and (max-width: 500px) {
+    @content;
+  }
+}
+
+@mixin mediaMd {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin mediaLg {
+  @media screen and (min-width: 769px) and (max-width: 1170px) {
+    @content;
+  }
+}
+
+@mixin mediaXl {
+  @media screen and (min-width: 1171px) {
+    @content;
+  }
+}
+
 
 * {
   box-sizing: border-box;
@@ -95,4 +161,438 @@ main {
   }
 }
 
-@import 'responsive';
+// @import 'responsive';
+
+main#about {
+  h1.lg-heading {
+    margin-bottom: 2rem;
+  }
+}
+
+.about-info {
+  display: grid;
+  grid-template-areas: 
+  'bioimage bio bio'
+  'job1 job2 job3';
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+
+  .bio-image {
+    grid-area: bioimage;
+    margin: auto;
+    border-radius: 50%;
+    border: 3px solid $secondary-color;
+  }
+  
+  .bio {
+    grid-area: bio;
+    font-size: 1.5rem;
+    background: rgba(darken($primary-color, 4), 0.6);
+    padding: 0.5rem 1rem;
+    border-radius: $box-corner;
+  }
+  
+  .qualification-1 {
+    grid-area: job1;
+  }
+  
+  .qualification-2 {
+    grid-area: job2;
+  }
+  
+  .qualification-3 {
+    grid-area: job3;
+  }
+  
+  .qualification {
+    background: rgba(darken($primary-color, 4), 0.6);
+    border-radius: 4px;
+    border-bottom: 2px solid $secondary-color;
+
+    h3 {
+      background: lighten($primary-color, 5);
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      padding: 1rem 0.5rem;
+    }
+    h5 {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+    }
+    p {
+      margin: 0;
+      padding: 0.5rem;
+      font-size: 90%;
+      opacity: 0.9;
+    }
+    
+    p:last-of-type {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Contact Page 
+
+main#contact {
+  h1.lg-heading {
+    margin-bottom: 2rem;
+  }
+
+  i {
+    opacity: 0.8;
+    margin-right: 1rem;
+    color: #fff;
+    @include easeOut;
+  }
+
+  i.highlight {
+    animation: highlight 2s ease-out;
+  }
+
+  p:hover {
+    i {
+      color: $secondary-color;
+    }
+  }
+}
+
+@keyframes highlight {
+  0% {
+    color: #fff;
+  }
+  50% {
+    color: $secondary-color;
+  }
+  100% {
+    color: #fff;
+  }
+}
+
+// Menu Button 
+.menu-btn {
+  position: absolute;
+  z-index: 3;
+  right: 35px;
+  top: 35px;
+  cursor: pointer;
+  @include easeOut();
+
+  .btn-line {
+    width: 28px;
+    height: 3px;
+    margin-bottom: 5px;
+    background: set-text-color($primary-color);
+    box-shadow: 1px 1px black;
+    @include easeOut();
+  }
+
+  // Rotate Into X With Menu Lines
+  &.close {
+    transform: rotate(-180deg);
+
+    .btn-line {
+      // Line 1 - Rotate
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      // Line 2 - Hide
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      // Line 3 - Rotate
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+// Menu Overlay
+.menu {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  visibility: hidden;
+
+  &.show {
+    visibility: visible;
+  }
+
+  &-branding,
+  &-nav {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    width: 50%;
+    height: 100vh;
+  }
+
+  &-nav {
+    margin: 0;
+    padding: 0;
+    background: rgba(darken($primary-color, 10), 0.9);
+    list-style: none;
+    transform: translate(0, -100%);
+    @include easeOut();
+
+    &.show {
+      // Slide In From Top
+      transform: translate(0, 0);
+    }
+  }
+
+  &-branding {
+    background: rgba(darken($primary-color, 5), 0.9);
+    border-right: 1px solid darken($primary-color, 5);
+    transform: translate(0, 100%);
+    @include easeOut();
+
+    &.show {
+      // Slide In From Bottom
+      transform: translate(0, 0);
+    }
+
+    .portrait {
+      width: 250px;
+      height: 250px;
+      background: url('../img/portrait-small.jpg');
+      background-size: cover;
+      border-radius: 50%;
+      border: 3px solid darken($secondary-color, 10);
+      box-shadow: 0 0 25px darken($primary-color, 10);
+    }
+  }
+
+  .nav-item {
+    transform: translate(600px, 0);
+    @include easeOut();
+
+    &.show {
+      // Slide In From Right
+      transform: translate(0, 0);
+    }
+
+    &.current > a {
+      color: $secondary-color;
+    }
+  }
+
+  .nav-link {
+    display: inline-block;
+    position: relative;
+    font-size: 30px;
+    text-transform: uppercase;
+    padding: 1rem 0;
+    font-weight: 300;
+    color: set-text-color($primary-color);
+    text-decoration: none;
+    letter-spacing: 1px;
+    @include easeOut();
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+}
+
+// Delay each .nav-item slide by 0.1s
+@for $i from 1 through 4 {
+  .nav-item:nth-child(#{$i}) {
+    transition-delay: $i *  0.1s;
+  }
+}
+
+// Work/Projects 
+
+main#work {
+  h1.lg-heading {
+    margin-bottom: 2rem;
+  }
+
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  
+  .item {
+    .img-container {
+      position: relative;
+      border: 3px solid lighten($primary-color, 20);
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
+      @include easeOut;
+      height: 12rem;
+
+      &:hover {
+        border-color: $secondary-color;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+
+      .img-description {
+        display: flex;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        opacity: 0;
+        background: rgba($primary-color, 0.6);
+        @include easeOut;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          opacity: 1;
+          font-size: 200%;
+        }
+      }
+    }
+
+    .item-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Button Styles
+.btn {
+  display: block;
+  padding: 0.5rem 1rem;
+  border: 0;
+  text-align: center;
+  @include easeOut;
+}
+
+.btn-dark {
+  @extend .btn;
+  background: #333;
+  color: lighten($primary-color, 50);
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.btn-light {
+  @extend .btn;
+  background: lighten($primary-color, 50);
+  color: #333;
+
+  &:hover {
+    background: #fff;
+  }
+}
+
+
+// Widescreens
+@include mediaXl {
+  .projects {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// Desktops & Laptops
+@include mediaLg {
+  .projects {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Tablets & Small Laptops
+@include mediaMd {
+  main {
+    align-items: center;
+    text-align: center;
+
+    .lg-heading {
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .menu-nav,
+  .menu-branding {
+    float: none;
+    width: 100%;
+    min-height: 0;
+
+    &.show {
+      transform: translate(0, 0);
+    }
+  }
+
+  .menu-nav {
+    height: 75vh;
+    transform: translate(-100%, 0);
+    font-size: 24px;
+
+    .nav-item {
+      transform: translate(-600px, 0);
+    }
+  }
+
+  .menu-branding {
+    height: 25vh;
+    border-right: none;
+    border-bottom: 1px solid darken($primary-color, 5);
+    transform: translate(100%, 0);
+
+    .portrait {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .about-info {
+    grid-template-areas:
+    'bioimage'
+    'bio'
+    'job1'
+    'job2'
+    'job3';
+
+    grid-template-columns: 1fr;
+  }
+
+  .projects {
+    grid-template-columns: repeat(2, 1fr);
+
+    .item{
+      .img-container {
+        .img-description {
+          opacity: 1;
+          font-size: 200%;
+        }
+      }
+    }
+  }
+}
+
+// Smartphones
+@include mediaSm {
+  main {
+    padding: 5rem 0;
+  }
+
+  h1 {
+    &.lg-heading {
+      font-size: 4rem;
+    }
+  }
+  main#home h1 {
+    margin-top: 20vh;
+  }
+
+  .projects {
+    grid-template-columns: 1fr;
+  }
+}
